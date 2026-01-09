@@ -1,0 +1,140 @@
+{% extends 'home/base.html' %}
+{% load widget_tweaks %}
+{% block title %}Bog‘lanish - StudyToKorea{% endblock %}
+
+{% block content %}
+<section class="py-12">
+  <div class="max-w-7xl mx-auto px-4">
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+
+      <!-- Chap qism -->
+      <div class="space-y-8">
+        {% for contact in contacts %}
+        <div class="bg-gradient-to-r from-blue-600 to-purple-700 text-white rounded-3xl p-6 shadow-lg">
+          <h2 class="text-2xl font-bold mb-4 text-center lg:text-left">Aloqa ma’lumotlari</h2>
+          <div class="space-y-3 text-center lg:text-left">
+            <p>
+              <i class="fas fa-phone-alt mr-2"></i>
+              <a href="tel:{{ contact.phone_number }}" class="hover:underline break-all">
+                {{ contact.phone_number }}
+              </a>
+            </p>
+            {% if contact.email %}
+            <p>
+              <i class="fas fa-envelope mr-2"></i>
+              <a href="mailto:{{ contact.email }}" class="hover:underline break-all">
+                {{ contact.email }}
+              </a>
+            </p>
+            {% endif %}
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-gray-500 text-center lg:text-left">Kontakt ma’lumotlari mavjud emas.</p>
+        {% endfor %}
+
+        <!-- Social media -->
+        <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-3 gap-4 justify-items-center">
+          {% for sm in social_media %}
+          <a href="{{ sm.link }}" target="_blank"
+             class="flex flex-col items-center justify-center p-3 w-full max-w-[110px]
+                    rounded-2xl shadow hover:scale-105 transition
+                    {{ sm.bg_color }} {{ sm.text_color }}">
+            <img src="{{ sm.icon.url }}" alt="{{ sm.name }}" class="w-8 h-8 mb-1">
+            <span class="text-xs sm:text-sm font-medium">{{ sm.name }}</span>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- O‘ng qism: Forma -->
+      <div class="bg-white rounded-3xl shadow-xl p-6 sm:p-8 border border-blue-100">
+
+        {% if messages %}
+        <div class="mb-5">
+          {% for message in messages %}
+          <div class="p-4 rounded-xl text-center font-medium
+                      bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg animate-fade">
+            {{ message }}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <h3 class="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          Bizga yozing
+        </h3>
+
+        <form method="POST" class="space-y-6">
+          {% csrf_token %}
+
+          <!-- Full Name -->
+          <div>
+            <label class="block text-gray-600 mb-1 text-sm font-medium">{{ form.full_name.label }}</label>
+            <div class="flex items-center border-2 border-gray-200 rounded-xl focus-within:border-blue-500 transition">
+              <span class="px-3 text-gray-400">
+                <i class="fas fa-user"></i>
+              </span>
+              {% render_field form.full_name placeholder=form.full_name.label class="w-full px-3 py-2 outline-none rounded-r-xl" %}
+            </div>
+          </div>
+
+          <!-- Age -->
+          <div>
+            <label class="block text-gray-600 mb-1 text-sm font-medium">{{ form.age.label }}</label>
+            <div class="flex items-center border-2 border-gray-200 rounded-xl focus-within:border-blue-500 transition">
+              <span class="px-3 text-gray-400">
+                <i class="fas fa-calendar-alt"></i>
+              </span>
+              {% render_field form.age placeholder=form.age.label class="w-full px-3 py-2 outline-none rounded-r-xl" %}
+            </div>
+          </div>
+
+          <!-- Region -->
+          <div>
+            <label class="block text-gray-600 mb-1 text-sm font-medium">{{ form.region.label }}</label>
+            <div class="flex items-center border-2 border-gray-200 rounded-xl focus-within:border-blue-500 transition">
+              <span class="px-3 text-gray-400">
+                <i class="fas fa-map-marker-alt"></i>
+              </span>
+              {% render_field form.region placeholder=form.region.label class="w-full px-3 py-2 outline-none rounded-r-xl" %}
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div>
+            <label class="block text-gray-600 mb-1 text-sm font-medium">{{ form.phone_number.label }}</label>
+            <div class="flex items-center border-2 border-gray-200 rounded-xl focus-within:border-blue-500 transition">
+              <span class="px-3 text-gray-400">
+                <i class="fas fa-phone"></i>
+              </span>
+              {% render_field form.phone_number placeholder=form.phone_number.label class="w-full px-3 py-2 outline-none rounded-r-xl" %}
+            </div>
+          </div>
+
+          <!-- Submit button with rocket -->
+          <div class="text-center pt-2">
+            <button type="submit"
+                    class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold
+                           py-3 rounded-xl hover:scale-105 transition transform shadow-md flex items-center justify-center gap-2">
+              <i class="fas fa-rocket"></i> Yuborish
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  setTimeout(() => {
+    const alert = document.querySelector('.animate-fade');
+    if (alert) {
+      alert.style.transition = "opacity 0.5s ease";
+      alert.style.opacity = "0";
+      setTimeout(() => alert.remove(), 500);
+    }
+  }, 3000);
+</script>
+{% endblock %}

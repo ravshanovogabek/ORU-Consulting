@@ -1,0 +1,61 @@
+{% extends "home/base.html" %}
+{% block title %}Hujjatlar | StudyToKorea{% endblock %}
+
+{% block content %}
+<div class="text-center mb-12">
+    <h1 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 mb-3">
+        Talab qilinadigan hujjatlar
+    </h1>
+    <p class="text-gray-600 text-lg">Quyidagi hujjatlarni Koreya universitetlariga topshirishda taqdim etishingiz zarur</p>
+</div>
+
+<!-- Hujjat kartochkalari -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for document in documents %}
+    <div class="relative bg-white rounded-2xl shadow-md overflow-hidden p-6 transition-transform duration-500 hover:scale-105 group">
+
+        <!-- Gradient border animatsiyasi -->
+        <div class="absolute inset-0 rounded-2xl border-2 border-transparent
+                    group-hover:border-transparent group-hover:animate-border-glow"></div>
+
+        <!-- Kontent -->
+        <div class="flex items-center space-x-4 mb-4">
+            <div class="w-12 h-12 flex items-center justify-center rounded-xl
+                        bg-gradient-to-br from-blue-500 to-purple-600 text-white text-2xl shadow-md">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800">{{ document.title }}</h2>
+        </div>
+        <p class="text-gray-600">{{ document.description }}</p>
+    </div>
+    {% empty %}
+    <div class="col-span-full text-center text-gray-500">
+        Hozircha hujjatlar mavjud emas.
+    </div>
+    {% endfor %}
+</div>
+
+<!-- CTA tugma -->
+<div class="text-center mt-16">
+    <a href="/contact/"
+       class="inline-flex items-center gap-3 px-8 py-3 rounded-xl text-white font-medium text-lg
+              bg-gradient-to-r from-blue-500 to-purple-600 shadow-md
+              transition-all duration-300 hover:shadow-[0_0_25px_rgba(139,92,246,0.6)] hover:scale-105">
+        <i class="fas fa-phone-alt text-white text-xl"></i>
+        Bog‘lanish
+    </a>
+</div>
+
+
+<!-- Border glow animatsiya -->
+<style>
+@keyframes border-glow {
+  0% { border-color: #3b82f6; }
+  50% { border-color: #8b5cf6; }
+  100% { border-color: #3b82f6; }
+}
+.group-hover\:animate-border-glow {
+  animation: border-glow 1.5s linear infinite;
+}
+</style>
+{% endblock %}
